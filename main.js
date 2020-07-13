@@ -1,7 +1,7 @@
 import Population from "./population.js";
 
 const target = "if music be the food of love play on";
-const popSize = 5000;
+const popSize = 3000;
 const numParents = 500;
 const mutationRate = 0.01;
 const maxGenerations = 10000;
