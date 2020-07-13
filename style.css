@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+}
+
+#population {
+  list-style: none;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.chromosome {
+  font-family: "Courier New";
+  display: grid;
+  grid-template-columns: 1fr 20px;
+  font-size: min(35px, 3vw);
+  text-align: center;
+}
+
+.error {
+  background: #e8505b;
+}
