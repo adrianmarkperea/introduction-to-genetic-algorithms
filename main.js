@@ -1,8 +1,8 @@
 import Population from "./population.js";
 
 const target = "if music be the food of love play on";
-const popSize = 3000;
-const numParents = 500;
+const popSize = 1000;
+const numParents = 300;
 const mutationRate = 0.01;
 const maxGenerations = 10000;
 
@@ -18,18 +18,23 @@ function loop() {
   if (population.isFinished) return;
 
   population.calculateFitness();
-  updateUI(population.population);
+  updateUI(population);
   population.evaluate();
 
   requestAnimationFrame(loop);
 }
 
 function updateUI(population) {
+  updatePopulationUI(population.population);
+  updateStats(population.getStats());
+}
+
+function updatePopulationUI(population) {
   const populationList = document.querySelector("#population");
   populationList.innerHTML = "";
 
-  // We only want to show the top 50
-  const listItems = population.slice(0, 50).map(createListItem);
+  // We only want to show the top 20 for performance reasons
+  const listItems = population.slice(0, 20).map(createListItem);
 
   listItems.forEach((li) => populationList.appendChild(li));
 }
@@ -61,6 +66,17 @@ function createListItem(chromosome) {
   listItem.appendChild(fitness);
 
   return listItem;
+}
+
+function updateStats(stats) {
+  document.querySelector("#currentGeneration").textContent =
+    stats.currentGeneration;
+  document.querySelector("#maxGeneration").textContent = stats.maxGenerations;
+  document.querySelector("#popSize").textContent = stats.popSize;
+  document.querySelector("#topFitness").textContent = stats.topFitness;
+  document.querySelector(
+    "#aveFitness"
+  ).textContent = stats.averageFitness.toFixed(2);
 }
 
 requestAnimationFrame(loop);

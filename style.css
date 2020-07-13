@@ -2,19 +2,24 @@
   box-sizing: border-box;
 }
 
-#population {
-  list-style: none;
+html { 
+  font-family: "Courier New";
+}
+
+.wrapper {
   max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
+}
+
+#population {
+  list-style: none;
+  padding: 2rem 0;
 }
 
 .chromosome {
-  font-family: "Courier New";
   display: grid;
   grid-template-columns: 1fr 20px;
   font-size: min(35px, 2.8vw);
-  text-align: center;
 }
 
 .error {

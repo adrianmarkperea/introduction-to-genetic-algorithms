@@ -1,5 +1,26 @@
 import Chromosome from "./chromosome.js";
 
+function binarySearch(array, target, l = 0, r = array.length - 1) {
+  if (l > r) return -1;
+
+  const m = Math.floor((l + r) / 2);
+
+  if (
+    (m !== 0 && array[m - 1] < target && target <= array[m]) ||
+    (m === 0 && target <= array[m])
+  ) {
+    return m;
+  } else if (m === 0 && target <= array[m]) {
+    return m;
+  } else if (array[m] < target) {
+    return binarySearch(array, target, m + 1, r);
+  } else if (array[m] > target) {
+    return binarySearch(array, target, l, m - 1);
+  } else {
+    return -1;
+  }
+}
+
 class Population {
   constructor(target, popSize, maxGenerations, numParents, mutationRate) {
     this.target = target;
@@ -73,13 +94,8 @@ class Population {
     const parents = [];
     for (let i = 0; i < this.numParents; i++) {
       const randomSpin = Math.random();
-
-      for (let j = 0; j < probabilities.length; j++) {
-        if (randomSpin < probabilities[j]) {
-          parents.push(this.population[j]);
-          break;
-        }
-      }
+      const index = binarySearch(probabilities, randomSpin);
+      parents.push(this.population[index]);
     }
 
     return parents;
@@ -96,6 +112,20 @@ class Population {
   _mutate(offspring) {
     offspring.mutate(this.mutationRate);
     return offspring;
+  }
+
+  getStats() {
+    return {
+      currentGeneration: this.currentGeneration,
+      maxGenerations: this.maxGenerations,
+      popSize: this.popSize,
+      topFitness: this.population[0].fitness,
+      averageFitness: this.population.reduce(
+        (average, current) =>
+          average + current.fitness / this.population.length,
+        0
+      ),
+    };
   }
 }
 
